@@ -5,16 +5,7 @@
 {% block contenido %}
 <form action="{% url 'crear_profesor' %}" method="post">
   {% csrf_token %}
-  <p>Ingrese nombre</p>
-  <input type="text" name="nombre">
-  <p>Ingrese apellido</p>
-  <input type="text" name="apellido">
-  <p>Ingrese mail</p>
-  <input type="email" name="email">
-  <p>Curso que dicta</p>
-  <input type="text" name="curso">
-  <p>Comision</p>
-  <input type="number" name="comision">
+  {{formulario.as_p}}
   <input type="submit" value="Enviar">
 </form>
 {% endblock contenido %}

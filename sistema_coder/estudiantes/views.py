@@ -121,14 +121,14 @@ def buscar_profesor(request):
     if request.method == "POST":
         data = request.POST
         cursos = Curso.objects.filter(
-            Q(nombre__contains=data['busqueda']) | Q(comision__exact=data['busqueda'])
+            Q(nombre__contains=data['busqueda']) | Q(apellido__exact=data['busqueda'])
         )
         contexto = {
             'cursos': cursos
         }
         return render(
             request=request,
-            template_name='estudiantes/lista_cursos.html',
+            template_name='estudiantes/lista_profesor.html',
             context=contexto,
         )
 

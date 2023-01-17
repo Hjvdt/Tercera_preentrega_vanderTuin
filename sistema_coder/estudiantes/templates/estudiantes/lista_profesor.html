@@ -4,7 +4,7 @@
 
 {% block estilos %}
 h1.titulos-coder {
-  color: green;
+  color: blue;
 }
 {% endblock estilos %}
 
@@ -24,7 +24,7 @@ h1.titulos-coder {
 
 <ul>
 {% for profesor in profesores %}
-  <li>{{ profesor.nombre }}, {{ profesor.comision }}, {{ profesor.curso }}</li>
+  <li>{{ profesor.nombre }}, {{ profesor.curso }}, {{ profesor.comision }}</li>
 {% endfor %}
 </ul>
 {% endblock contenido %}

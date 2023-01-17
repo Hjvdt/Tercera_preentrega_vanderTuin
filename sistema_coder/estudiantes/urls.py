@@ -8,7 +8,7 @@ from estudiantes.views import (
 
 urlpatterns = [
     path('alumnos/', listar_estudiantes, name="listar_alumnos"),
-    path('profesores/', listar_profesor, name="listar_profesor"),
+    path('profesor/', listar_profesor, name="listar_profesor"),
     path('cursos/', listar_cursos, name="listar_cursos"),
     path('crear-curso/', crear_curso, name="crear_curso"),
     path('buscar-cursos/', buscar_cursos, name="buscar_cursos"),

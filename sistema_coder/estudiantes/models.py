@@ -29,8 +29,9 @@ class Profesor(models.Model):
     fecha_nacimiento = models.DateField(null=True)
     profesion = models.CharField(max_length=128)
     bio = models.TextField(null=True)
-    curso_dicta = models.CharField(max_length=64, null=True)
-    comision_curso = models.CharField(max_length=10, null=True)
+    curso = models.CharField(max_length=64)
+    comision = models.IntegerField()
+
 
     def __str__(self):
         return f"{self.apellido}, {self.nombre}"
