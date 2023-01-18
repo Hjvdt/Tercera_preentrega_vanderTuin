@@ -3,9 +3,13 @@
 {% block subtitulo %}Crear Estudiante{% endblock subtitulo %}
 
 {% block contenido %}
-<form action="{% url 'crear_estudiante' %}" method="post">
+{% if es_update %}
+  <form action="{% url 'editar_estudiante' estudiante.id %}" method="post">
+{% else %}
+  <form action="{% url 'crear_estudiante' %}" method="post">
+{% endif %}
 
-<h1>Añadir Estudiante</h1>
+  <h1>Añadir Estudiante</h1>
   <p></p>
 
   {% csrf_token %}

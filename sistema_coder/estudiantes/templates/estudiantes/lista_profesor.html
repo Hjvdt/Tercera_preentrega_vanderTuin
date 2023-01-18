@@ -2,6 +2,12 @@
 
 {% block subtitulo %}Lista de Profesores{% endblock subtitulo %}
 
+{% block estilos %}
+h1.titulos-coder {
+  color: green;
+}
+{% endblock estilos %}
+
 {% block contenido %}
 <h1>Lista de Profesores</h1>
 <a href="{% url 'crear_profesor' %}">Añadir</a>
@@ -23,7 +29,7 @@
       <td>Editar</td>
       <td>Eliminar</td>
     </tr>
-    {% for profesor in profesores %}
+    {% for profesor in profesor %}
     <tr>
       <td>{{ profesor.nombre }}</td>
       <td>{{ profesor.apellido }}</td>

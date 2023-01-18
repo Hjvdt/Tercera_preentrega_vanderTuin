@@ -52,7 +52,7 @@ def buscar_estudiante(request):
     if request.method == "POST":
         data = request.POST
         estudiante = Estudiante.objects.filter(
-            Q(nombre__contains=data['busqueda']) | Q(comision__exact=data['busqueda'])
+            Q(nombre__contains=data['busqueda']) | Q(apellido__exact=data['busqueda'])
         )
         contexto = {
             'estudiante': estudiante
@@ -63,7 +63,7 @@ def buscar_estudiante(request):
             context=contexto,
         )
 
-def ver_estuiante(request, id):
+def ver_estudiante(request, id):
     estudiante = Estudiante.objects.get(id=id)
     contexto = {
         'estudiante': estudiante
@@ -73,6 +73,57 @@ def ver_estuiante(request, id):
         template_name='estudiantes/detalle_estudiante.html',
         context=contexto,
     )
+
+def buscar_estudiante(request):
+    if request.method == "POST":
+        data = request.POST
+        estudiante = Estudiante.objects.filter(
+            Q(nombre__contains=data['busqueda']) | Q(apellido__exact=data['busqueda'])
+        )
+        contexto = {
+            'estudiante': estudiante
+        }
+        return render(
+            request=request,
+            template_name='estudiantes/lista_estudiantes.html',
+            context=contexto,
+        )
+
+def editar_estudiante(request, id):
+    estudiante = Estudiante.objects.get(id=id)
+    if request.method == "POST":
+        formulario = EstudianteFormulario(request.POST)
+
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+            estudiante.nombre = data['nombre']
+            estudiante.apellido = data['apellido']
+            estudiante.curso = data['curso']
+            estudiante.comision = data['comision']
+            estudiante.save()
+            url_exitosa = reverse('listar_estudiante')
+            return redirect(url_exitosa)
+    else:  # GET
+        inicial = {
+            'nombre': estudiante.nombre,
+            'apellido': estudiante.apellido,
+            'curso': estudiante.curso,
+            'comision': estudiante.comision,
+        }
+        formulario = EstudianteFormulario(initial=inicial)
+    return render(
+        request=request,
+        template_name='estudiantes/formulario_estudiante.html',
+        context={'formulario': formulario, 'estudiante': estudiante, 'es_update': True},
+    )
+
+def eliminar_estudiante(request, id):
+    estudiante = Estudiante.objects.get(id=id)
+    if request.method == "POST":
+        estudiante.delete()
+        url_exitosa = reverse('listar_estudiante')
+        return redirect(url_exitosa)
+
 
 # ver, editar, borrar y listar Profesor
 
