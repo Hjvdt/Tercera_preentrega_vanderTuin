@@ -132,6 +132,41 @@ def buscar_profesor(request):
             context=contexto,
         )
 
+def editar_profesor(request, id):
+    profesor = Profesor.objects.get(id=id)
+    if request.method == "POST":
+        formulario = ProfesorFormulario(request.POST)
+
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+            profesor.nombre = data['nombre']
+            profesor.apellido = data['apellido']
+            profesor.curso = data['curso']
+            profesor.comision = data['comision']
+            profesor.save()
+            url_exitosa = reverse('listar_profesor')
+            return redirect(url_exitosa)
+    else:  # GET
+        inicial = {
+            'nombre': profesor.nombre,
+            'apellido': profesor.apellido,
+            'curso': profesor.curso,
+            'comision': profesor.comision,
+        }
+        formulario = ProfesoroFormulario(initial=inicial)
+    return render(
+        request=request,
+        template_name='estudiantes/formulario_profesor.html',
+        context={'formulario': formulario, 'profesor': profesor, 'es_update': True},
+    )
+
+def eliminar_profesor(request, id):
+    profesor = Profesor.objects.get(id=id)
+    if request.method == "POST":
+        profesor.delete()
+        url_exitosa = reverse('listar_profesor')
+        return redirect(url_exitosa)
+
 
 # ver, editar, borrar y listar Cursos
 def listar_cursos(request):
