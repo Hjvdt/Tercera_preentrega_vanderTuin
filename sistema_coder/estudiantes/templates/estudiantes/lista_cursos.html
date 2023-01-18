@@ -2,14 +2,8 @@
 
 {% block subtitulo %}Lista de cursos{% endblock subtitulo %}
 
-{% block estilos %}
-h1.titulos-coder {
-  color: red;
-}
-{% endblock estilos %}
-
 {% block contenido %}
-<h1 class="titulos-coder">Lista de cursos</h1>
+<h1>Lista de cursos</h1>
 <a href="{% url 'crear_curso' %}">Añadir</a>
 <br>
 
@@ -20,9 +14,34 @@ h1.titulos-coder {
 </form>
 <br>
 
-<ul>
-{% for curso in cursos %}
-  <li>{{ curso.nombre }}, {{ curso.comision }}</li>
-{% endfor %}
-</ul>
+<table class="table">
+  <tbody>
+    <tr>
+      <th>Nombre</th>
+      <th>Comision</th>
+      <td>Ver</td>
+      <td>Editar</td>
+      <td>Eliminar</td>
+    </tr>
+    {% for curso in cursos %}
+    <tr>
+      <td>{{ curso.nombre }}</td>
+      <td>{{ curso.comision }}</td>
+      <td>
+        <a href="{% url 'ver_curso' curso.id %}">Ver</a>
+      </td>
+      <td>
+        <a href="{% url 'editar_curso' curso.id %}">Editar</a>
+      </td>
+      <td>
+        <form action="{% url 'eliminar_curso' curso.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="eliminar"/>
+        </form
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock contenido %}

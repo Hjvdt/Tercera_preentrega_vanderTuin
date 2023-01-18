@@ -8,22 +8,36 @@ h1.titulos-coder {
 }
 {% endblock estilos %}
 
-
 {% block contenido %}
-<h1 class="titulos-coder">Lista de Estudiantes</h1>
+
+<h1 class="titulos-coder">Lista de estudiantes</h1>
+<a></a>
 <a href="{% url 'crear_estudiante' %}">Añadir</a>
 <br>
 
-<form action="{% url 'buscar_estudiante' %}" method="post">
-  {% csrf_token %}
-  <input type="text" name="busqueda">
-  <input type="submit" value="Buscar">
-</form>
-<br>
+<table class="table">
+  <tbody>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <td>Ver</td>
+      <td>Editar</td>
+      <td>Eliminar</td>
+    </tr>
+    {% for alumno in object_list %}
+    <tr>
+      <td>{{ alumno.nombre }}</td>
+      <td>{{ alumno.apellido }}</td>
+      <td>
+        Ver
+      </td>
+      <td>
+        <a href="{% url 'editar_alumno' alumno.id %}">Editar</a>
+      </td>
+      <td>Eliminar</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
-<ul>
-{% for estudiante in estudiantes %}
-  <li>{{ estudiante.nombre }}, {{ estudiante.comision }}, {{ estudiante.curso }}</li>
-{% endfor %}
-</ul>
 {% endblock contenido %}

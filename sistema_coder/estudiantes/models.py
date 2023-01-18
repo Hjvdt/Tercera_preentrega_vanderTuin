@@ -4,6 +4,7 @@ class Curso(models.Model):
     nombre = models.CharField(max_length=64)
     comision = models.IntegerField()
     fecha_inicio = models.DateField(null=True)
+    descripcion = models.TextField(null=True)
 
     def __str__(self):
         return f"{self.nombre}, {self.comision}"
@@ -29,8 +30,8 @@ class Profesor(models.Model):
     fecha_nacimiento = models.DateField(null=True)
     profesion = models.CharField(max_length=128)
     bio = models.TextField(null=True)
-    curso = models.CharField(max_length=64)
-    comision = models.IntegerField()
+    curso = models.CharField(blank=True, max_length=32)
+    comision = models.IntegerField(blank=True, null=True)
 
 
     def __str__(self):

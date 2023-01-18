@@ -2,16 +2,8 @@
 
 {% block subtitulo %}Lista de Profesores{% endblock subtitulo %}
 
-{% block estilos %}
-h1.titulos-coder {
-  color: blue;
-}
-{% endblock estilos %}
-
-
 {% block contenido %}
-<h1 class="titulos-coder">Lista de Profesores</h1>
-<a></a>
+<h1>Lista de Profesores</h1>
 <a href="{% url 'crear_profesor' %}">Añadir</a>
 <br>
 
@@ -22,9 +14,29 @@ h1.titulos-coder {
 </form>
 <br>
 
-<ul>
-{% for profesor in profesores %}
-  <li>{{ profesor.nombre }}, {{ profesor.curso }}, {{ profesor.comision }}</li>
-{% endfor %}
-</ul>
+<table class="table">
+  <tbody>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <td>Ver</td>
+      <td>Editar</td>
+      <td>Eliminar</td>
+    </tr>
+    {% for profesor in object_list %}
+    <tr>
+      <td>{{ profesor.nombre }}</td>
+      <td>{{ profesor.apellido }}</td>
+      <td>
+        Ver
+      </td>
+      <td>
+        <a href="{% url 'editar_profesor' profesor.id %}">Editar</a>
+      </td>
+      <td>Eliminar</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock contenido %}

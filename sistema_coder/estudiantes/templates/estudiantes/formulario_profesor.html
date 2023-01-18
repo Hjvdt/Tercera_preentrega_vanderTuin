@@ -1,11 +1,19 @@
 {% extends "estudiantes/base.html" %}
 
-{% block subtitulo %}Alta de Profesor{% endblock subtitulo %}
+{% block subtitulo %}Crear Profesor{% endblock subtitulo %}
 
 {% block contenido %}
-<form action="{% url 'crear_profesor' %}" method="post">
+{% if es_update %}
+  <form action="{% url 'editar_profesor' profesor.id %}" method="post">
+{% else %}
+  <form action="{% url 'crear_profesor' %}" method="post">
+{% endif %}
+
+<h1>Añadir Profesor</h1>
+  <p></p>
+
   {% csrf_token %}
-  {{formulario.as_p}}
-  <input type="submit" value="Enviar">
+  {{ formulario.as_p }}
+  <input type="submit" value="Enviar" />
 </form>
 {% endblock contenido %}

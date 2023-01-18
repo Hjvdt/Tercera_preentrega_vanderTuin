@@ -4,6 +4,10 @@
 
 {% block contenido %}
 <form action="{% url 'crear_estudiante' %}" method="post">
+
+<h1>Añadir Estudiante</h1>
+  <p></p>
+
   {% csrf_token %}
   {{ formulario.as_p }}
   <input type="submit" value="Enviar" />
