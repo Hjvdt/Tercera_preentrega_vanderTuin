@@ -153,7 +153,7 @@ def editar_profesor(request, id):
             'curso': profesor.curso,
             'comision': profesor.comision,
         }
-        formulario = ProfesoroFormulario(initial=inicial)
+        formulario = ProfesorFormulario(initial=inicial)
     return render(
         request=request,
         template_name='estudiantes/formulario_profesor.html',
