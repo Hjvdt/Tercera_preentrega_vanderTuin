@@ -1,0 +1,20 @@
+% extends "estudiantes/base.html" %}
+
+{% block subtitulo %}Info del medico{% endblock subtitulo %}
+
+{% block contenido %}
+<h4>{{medico.nombre}}</h4>
+<span>
+  <b>Comision:</b> {{medico.comision}}
+</span>
+<br>
+{% if medico.especialidad %}
+<span>
+  <b>Especialidad:</b> {{medico.especialidad}}
+</span>
+{% endif %}
+<br><br>
+
+<a href="{% url 'listar_medico' %}">Volver a la lista</a>
+
+{% endblock contenido %}

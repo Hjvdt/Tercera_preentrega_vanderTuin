@@ -1,0 +1,20 @@
+{% extends "estudiantes/base.html" %}
+
+{% block subtitulo %}Info de la Especialidad{% endblock subtitulo %}
+
+{% block contenido %}
+<h4>{{especialidad.nombre}}</h4>
+<span>
+  <b>Comision:</b> {{especialidad.comision}}
+</span>
+<br>
+{% if especialidad.descripcion %}
+<span>
+  <b>Descripcion:</b> {{especialidad.descripcion}}
+</span>
+{% endif %}
+<br><br>
+
+<a href="{% url 'listar_especialidades' %}">Volver a la lista</a>
+
+{% endblock contenido %}

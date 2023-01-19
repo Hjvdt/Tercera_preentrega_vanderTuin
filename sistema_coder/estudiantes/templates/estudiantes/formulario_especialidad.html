@@ -1,0 +1,19 @@
+{% extends "estudiantes/base.html" %}
+
+{% block subtitulo %}Crear especialidad{% endblock subtitulo %}
+
+{% block contenido %}
+{% if es_update %}
+  <form action="{% url 'editar_especialidad' especialidad.id %}" method="post">
+{% else %}
+  <form action="{% url 'crear_especialidad' %}" method="post">
+{% endif %}
+  
+  <h1>Añadir especialidad</h1>
+  <p></p>
+
+  {% csrf_token %}
+  {{ formulario.as_p }}
+  <input type="submit" value="Enviar" />
+</form>
+{% endblock contenido %}

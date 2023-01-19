@@ -1,6 +1,6 @@
 {% extends "estudiantes/base.html" %}
 
-{% block subtitulo %}Lista de Profesores{% endblock subtitulo %}
+{% block subtitulo %}Lista de Pacientes{% endblock subtitulo %}
 
 {% block estilos %}
 h1.titulos-coder {
@@ -9,11 +9,11 @@ h1.titulos-coder {
 {% endblock estilos %}
 
 {% block contenido %}
-<h1>Lista de Profesores</h1>
-<a href="{% url 'crear_profesor' %}">Añadir</a>
+<h1>Lista de Pacientes</h1>
+<a href="{% url 'crear_paciente' %}">Añadir</a>
 <br>
 
-<form action="{% url 'buscar_profesor' %}" method="post">
+<form action="{% url 'buscar_paciente' %}" method="post">
   {% csrf_token %}
   <input type="text" name="busqueda">
   <input type="submit" value="Buscar">
@@ -29,15 +29,15 @@ h1.titulos-coder {
       <td>Editar</td>
       <td>Eliminar</td>
     </tr>
-    {% for profesor in profesor %}
+    {% for paciente in paciente %}
     <tr>
-      <td>{{ profesor.nombre }}</td>
-      <td>{{ profesor.apellido }}</td>
+      <td>{{paciente.nombre}}</td>
+      <td>{{paciente.apellido}}</td>
       <td>
         Ver
       </td>
       <td>
-        <a href="{% url 'editar_profesor' profesor.id %}">Editar</a>
+        <a href="{% url 'editar_paciente' paciente.id %}">Editar</a>
       </td>
       <td>Eliminar</td>
     </tr>

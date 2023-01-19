@@ -1,18 +1,23 @@
 from django import forms
 
 
-class CursoFormulario(forms.Form):
+class EspecialidadFormulario(forms.Form):
     nombre = forms.CharField(max_length=64)
     comision = forms.IntegerField(required=True, max_value=2000)
+    descripcion = forms.CharField(max_length=64)
 
-class ProfesorFormulario(forms.Form):
+class MedicoFormulario(forms.Form):
     nombre = forms.CharField(max_length=64)
     apellido = forms.CharField(max_length=64)
-    curso = forms.CharField(max_length=64)
-    comision = forms.IntegerField(required=True, max_value=2000)
+    matricula = forms.CharField(max_length=32)
+    email = forms.EmailField()
+    fecha_nacimiento = forms.DateField()
+    bio = forms.CharField(max_length=256)
+    especialidad = forms.CharField(max_length=64)
+    comision = forms.IntegerField()
     
 
-class EstudianteFormulario(forms.Form):
+class PacienteFormulario(forms.Form):
     nombre = forms.CharField(max_length=64)
-    curso = forms.CharField(max_length=64)
-    comision = forms.IntegerField(required=True, max_value=2000)
+    apellido = forms.CharField(max_length=64)
+    

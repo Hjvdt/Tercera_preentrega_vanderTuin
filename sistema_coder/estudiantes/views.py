@@ -6,8 +6,8 @@ from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from estudiantes.models import Estudiante, Profesor, Curso, Entregable
-from estudiantes.forms import CursoFormulario, EstudianteFormulario, ProfesorFormulario
+from estudiantes.models import Paciente, Medico, Especialidad
+from estudiantes.forms import EspecialidadFormulario, PacienteFormulario, MedicoFormulario
  
 
 def inicio(request):
@@ -16,341 +16,327 @@ def inicio(request):
         template_name='estudiantes/inicio.html',
     )
 
-# ver, editar, borrar y listar Estudiantes
-def listar_estudiantes(request):
-    ## Aqui iria la validacion del permiso lectura estudiantes
+# ver, editar, borrar y listar Pacientes
+def listar_pacientes(request):
     contexto = {
-        'estudiantes': Estudiante.objects.all()
+        'paciente': Paciente.objects.all()
     }
     return render(
         request=request,
-        template_name='estudiantes/lista_estudiantes.html',
+        template_name='estudiantes/lista_pacientes.html',
         context=contexto,
     )
 
 
-def crear_estudiante(request):
+def crear_paciente(request):
     if request.method == "POST":
-        formulario = EstudianteFormulario(request.POST)
+        formulario = PacienteFormulario(request.POST)
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-            estudiante = Estudiante(nombre=data['nombre'], comision=data['comision'])
-            estudiante.save()
-            url_exitosa = reverse('listar_estudiante')
+            paciente = Paciente(nombre=data['nombre'], comision=data['comision'])
+            paciente.save()
+            url_exitosa = reverse('listar_paciente')
             return redirect(url_exitosa)
     else:  # GET
-        formulario = EstudianteFormulario()
+        formulario = PacienteFormulario()
     return render(
         request=request,
-        template_name='estudiantes/formulario_estudiante.html',
+        template_name='estudiantes/formulario_paciente.html',
         context={'formulario': formulario},
     )
 
 
-def buscar_estudiante(request):          
+def buscar_paciente(request):          
     if request.method == "POST":
         data = request.POST
-        estudiante = Estudiante.objects.filter(
+        paciente = Paciente.objects.filter(
             Q(nombre__contains=data['busqueda']) | Q(apellido__exact=data['busqueda'])
         )
         contexto = {
-            'estudiante': estudiante
+            'paciente': paciente
         }
         return render(
             request=request,
-            template_name='estudiantes/lista_estudiante.html',
+            template_name='estudiantes/lista_paciente.html',
             context=contexto,
         )
 
-def ver_estudiante(request, id):
-    estudiante = Estudiante.objects.get(id=id)
+def ver_paciente(request, id):
+    paciente = Paciente.objects.get(id=id)
     contexto = {
-        'estudiante': estudiante
+        'paciente': paciente
     }
     return render(
         request=request,
-        template_name='estudiantes/detalle_estudiante.html',
+        template_name='estudiantes/detalle_paciente.html',
         context=contexto,
     )
 
-def buscar_estudiante(request):
+def buscar_paciente(request):
     if request.method == "POST":
         data = request.POST
-        estudiante = Estudiante.objects.filter(
+        paciente = Paciente.objects.filter(
             Q(nombre__contains=data['busqueda']) | Q(apellido__exact=data['busqueda'])
         )
         contexto = {
-            'estudiante': estudiante
+            'paciente': paciente
         }
         return render(
             request=request,
-            template_name='estudiantes/lista_estudiantes.html',
+            template_name='estudiantes/lista_pacientes.html',
             context=contexto,
         )
 
-def editar_estudiante(request, id):
-    estudiante = Estudiante.objects.get(id=id)
+def editar_paciente(request, id):
+    paciente = Paciente.objects.get(id=id)
     if request.method == "POST":
-        formulario = EstudianteFormulario(request.POST)
+        formulario = PacienteFormulario(request.POST)
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-            estudiante.nombre = data['nombre']
-            estudiante.apellido = data['apellido']
-            estudiante.curso = data['curso']
-            estudiante.comision = data['comision']
-            estudiante.save()
-            url_exitosa = reverse('listar_estudiante')
+            paciente.nombre = data['nombre']
+            paciente.apellido = data['apellido']
+            paciente.especialidad = data['especialidad']
+            paciente.comision = data['comision']
+            paciente.save()
+            url_exitosa = reverse('listar_paciente')
             return redirect(url_exitosa)
     else:  # GET
         inicial = {
-            'nombre': estudiante.nombre,
-            'apellido': estudiante.apellido,
-            'curso': estudiante.curso,
-            'comision': estudiante.comision,
+            'nombre': paciente.nombre,
+            'apellido': paciente.apellido,
+            'especialidad': paciente.especialidad,
+            'comision': paciente.comision,
         }
-        formulario = EstudianteFormulario(initial=inicial)
+        formulario = PacienteFormulario(initial=inicial)
     return render(
         request=request,
-        template_name='estudiantes/formulario_estudiante.html',
-        context={'formulario': formulario, 'estudiante': estudiante, 'es_update': True},
+        template_name='estudiantes/formulario_paciente.html',
+        context={'formulario': formulario, 'paciente': paciente, 'es_update': True},
     )
 
-def eliminar_estudiante(request, id):
-    estudiante = Estudiante.objects.get(id=id)
+def eliminar_paciente(request, id):
+    paciente = Paciente.objects.get(id=id)
     if request.method == "POST":
-        estudiante.delete()
-        url_exitosa = reverse('listar_estudiante')
+        paciente.delete()
+        url_exitosa = reverse('listar_paciente')
         return redirect(url_exitosa)
 
 
-# ver, editar, borrar y listar Profesor
+# ver, editar, borrar y listar Medico
 
-def listar_profesor(request):
+def listar_medico(request):
     contexto = {
-        'profesor': Profesor.objects.all()
+        'medico': Medico.objects.all()
     }
     return render(
         request=request,
-        template_name='estudiantes/lista_profesor.html',
+        template_name='estudiantes/lista_medico.html',
         context=contexto,
     )
 
-def ver_profesor(request, id):
-    profesor = Profesor.objects.get(id=id)
+def ver_medico(request, id):
+    medico = Medico.objects.get(id=id)
     contexto = {
-        'profesor': profesor
+        'medico': medico
     }
     return render(
         request=request,
-        template_name='estudiantes/detalle_profesor.html',
+        template_name='estudiantes/detalle_medico.html',
         context=contexto,
     )
 
-def crear_profesor(request):
+def crear_medico(request):
     
     if request.method == "POST":
-        formulario = ProfesorFormulario(request.POST)
+        formulario = MedicoFormulario(request.POST)
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-            profesor = Profesor(nombre=data['nombre'], apellido=data['apellido'], curso=data['curso'], comision=data['comision'])
-            profesor.save()
-            url_exitosa = reverse('listar_profesor')
+            medico = Medico(
+                nombre=data['nombre'], apellido=data['apellido'], especialidad=data['especialidad'], matricula=data['matricula'], email=data['email'])
+            medico.save()
+            url_exitosa = reverse('listar_medico')
             return redirect(url_exitosa)
     else:  # GET
-        formulario = ProfesorFormulario()
+        formulario = MedicoFormulario()
     return render(
         request=request,
-        template_name='estudiantes/formulario_profesor.html',
+        template_name='estudiantes/formulario_medico.html',
         context={'formulario': formulario},
     )
 
 
-def buscar_profesor(request):
+def buscar_medico(request):
     if request.method == "POST":
         data = request.POST
-        profesor = Profesor.objects.filter(
+        medico = Medico.objects.filter(
             Q(nombre__contains=data['busqueda']) | Q(apellido__exact=data['busqueda'])
         )
         contexto = {
-            'profesor': profesor
+            'medico': medico
         }
         return render(
             request=request,
-            template_name='estudiantes/lista_profesor.html',
+            template_name='estudiantes/lista_medico.html',
             context=contexto,
         )
 
-def editar_profesor(request, id):
-    profesor = Profesor.objects.get(id=id)
+def editar_medico(request, id):
+    medico = Medico.objects.get(id=id)
     if request.method == "POST":
-        formulario = ProfesorFormulario(request.POST)
+        formulario = MedicoFormulario(request.POST)
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-            profesor.nombre = data['nombre']
-            profesor.apellido = data['apellido']
-            profesor.curso = data['curso']
-            profesor.comision = data['comision']
-            profesor.save()
-            url_exitosa = reverse('listar_profesor')
+            medico.nombre = data['nombre']
+            medico.apellido = data['apellido']
+            medico.especialidad = data['especialidad']
+            medico.comision = data['comision']
+            medico.save()
+            url_exitosa = reverse('listar_medico')
             return redirect(url_exitosa)
     else:  # GET
         inicial = {
-            'nombre': profesor.nombre,
-            'apellido': profesor.apellido,
-            'curso': profesor.curso,
-            'comision': profesor.comision,
+            'nombre': medico.nombre,
+            'apellido': medico.apellido,
+            'especialidad': medico.especialidad,
+            'comision': medico.comision,
         }
-        formulario = ProfesorFormulario(initial=inicial)
+        formulario = MedicoFormulario(initial=inicial)
     return render(
         request=request,
-        template_name='estudiantes/formulario_profesor.html',
-        context={'formulario': formulario, 'profesor': profesor, 'es_update': True},
+        template_name='estudiantes/formulario_medico.html',
+        context={'formulario': formulario, 'medico': medico, 'es_update': True},
     )
 
-def eliminar_profesor(request, id):
-    profesor = Profesor.objects.get(id=id)
+def eliminar_medico(request, id):
+    medico = Medico.objects.get(id=id)
     if request.method == "POST":
-        profesor.delete()
-        url_exitosa = reverse('listar_profesor')
+        medico.delete()
+        url_exitosa = reverse('listar_medico')
         return redirect(url_exitosa)
 
 
-# ver, editar, borrar y listar Cursos
-def listar_cursos(request):
+# ver, editar, borrar y listar especialidades
+def listar_especialidades(request):
     contexto = {
-        'cursos': Curso.objects.all()
+        'especialidades': Especialidad.objects.all()
     }
     return render(
         request=request,
-        template_name='estudiantes/lista_cursos.html',
+        template_name='estudiantes/lista_especialidades.html',
         context=contexto,
     )
 
-def ver_curso(request, id):
-    curso = Curso.objects.get(id=id)
+def ver_especialidad(request, id):
+    especialidad = Especialidad.objects.get(id=id)
     contexto = {
-        'curso': curso
+        'especialidad': especialidad
     }
     return render(
         request=request,
-        template_name='estudiantes/detalle_curso.html',
+        template_name='estudiantes/detalle_especialidad.html',
         context=contexto,
     )
 
-#def crear_curso_version_1(request):
-    """No la estamos usando"""
-#    if request.method == "POST":
-#        data = request.POST
-#        curso = Curso(nombre=data['nombre'], comision=data['comision'])
-#        curso.save()
-#        url_exitosa = reverse('listar_cursos')
-#        return redirect(url_exitosa)
-#    else:  # GET
-#        return render(
-#            request=request,
-#            template_name='estudiantes/formulario_curso_a_mano.html',
-#        )
 
-
-def crear_curso(request):
+def crear_especialidad(request):
     if request.method == "POST":
-        formulario = CursoFormulario(request.POST)
+        formulario = EspecialidadFormulario(request.POST)
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-            curso = Curso(nombre=data['nombre'], comision=data['comision'])
-            curso.save()
-            url_exitosa = reverse('listar_cursos')
+            especialidad = Especialidad(nombre=data['nombre'], comision=data['comision'], descripcion = data['descripcion'])
+            especialidad.save()
+            url_exitosa = reverse('listar_especialidades')
             return redirect(url_exitosa)
     else:  # GET
-        formulario = CursoFormulario()
+        formulario = EspecialidadFormulario()
     return render(
         request=request,
-        template_name='estudiantes/formulario_curso.html',
+        template_name='estudiantes/formulario_especialidad.html',
         context={'formulario': formulario},
     )
 
 
-def buscar_cursos(request):
+def buscar_especialidades(request):
     if request.method == "POST":
         data = request.POST
-        cursos = Curso.objects.filter(
-            Q(nombre__contains=data['busqueda']) | Q(comision__exact=data['busqueda'])
+        especialidades = Especialidad.objects.filter(
+            Q(nombre__contains=data['busqueda']) | Q(comision__contains=data['busqueda'])
         )
         contexto = {
-            'cursos': cursos
+            'especialidades': especialidades
         }
         return render(
             request=request,
-            template_name='estudiantes/lista_cursos.html',
+            template_name='estudiantes/lista_especialidades.html',
             context=contexto,
         )
 
 
-def editar_curso(request, id):
-    curso = Curso.objects.get(id=id)
+def editar_especialidad(request, id):
+    especialidad = Especialidad.objects.get(id=id)
     if request.method == "POST":
-        formulario = CursoFormulario(request.POST)
+        formulario = EspecialidadFormulario(request.POST)
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-            curso.nombre = data['nombre']
-            curso.comision = data['comision']
-            curso.descripcion = data['descripcion']
-            curso.save()
-            url_exitosa = reverse('listar_cursos')
+            especialidad.nombre = data['nombre']
+            especialidad.comision = data['comision']
+            especialidad.descripcion = data['descripcion']
+            especialidad.save()
+            url_exitosa = reverse('listar_especialidades')
             return redirect(url_exitosa)
     else:  # GET
         inicial = {
-            'nombre': curso.nombre,
-            'comision': curso.comision,
-            'descripcion': curso.descripcion,
+            'nombre': especialidad.nombre,
+            'comision': especialidad.comision,
+            'descripcion': especialidad.descripcion,
         }
-        formulario = CursoFormulario(initial=inicial)
+        formulario = EspecialidadFormulario(initial=inicial)
     return render(
         request=request,
-        template_name='estudiantes/formulario_curso.html',
-        context={'formulario': formulario, 'curso': curso, 'es_update': True},
+        template_name='estudiantes/formulario_especialidad.html',
+        context={'formulario': formulario, 'especialidad': especialidad, 'es_update': True},
     )
 
-def eliminar_curso(request, id):
-    curso = Curso.objects.get(id=id)
+def eliminar_especialidad(request, id):
+    especialidad = Especialidad.objects.get(id=id)
     if request.method == "POST":
-        curso.delete()
-        url_exitosa = reverse('listar_cursos')
+        especialidad.delete()
+        url_exitosa = reverse('listar_especialidades')
         return redirect(url_exitosa)
 
 
 
-class EstudianteListView(ListView):
-    model = Estudiante
-    template_name = 'estudiantes/lista_estudiantes.html'
+class PacienteListView(ListView):
+    model = Paciente
+    template_name = 'estudiantes/lista_pacientes.html'
 
 
-class EstudianteCreateView(CreateView):
-    model = Estudiante
+class PacienteCreateView(CreateView):
+    model = Paciente
     fields = ['nombre', 'apellido', 'dni', 'email']
-    success_url = reverse_lazy('listar_alumnos')
+    success_url = reverse_lazy('listar_pacientes')
 
 
-class EstudianteDetailView(DetailView):
-    model = Estudiante
-    success_url = reverse_lazy('listar_alumnos')
+class PacienteDetailView(DetailView):
+    model = Paciente
+    success_url = reverse_lazy('listar_pacientes')
 
 
-class EstudianteUpdateView(UpdateView):
-    model = Estudiante
+class PacienteUpdateView(UpdateView):
+    model = Paciente
     fields = ['nombre', 'apellido', 'dni', 'email']
-    success_url = reverse_lazy('listar_alumnos')
+    success_url = reverse_lazy('listar_pacientes')
 
 
-class EstudianteDeleteView(DeleteView):
-    model = Estudiante
-    success_url = reverse_lazy('listar_alumnos')
+class PacienteDeleteView(DeleteView):
+    model = Paciente
+    success_url = reverse_lazy('listar_pacientes')
 
 
 

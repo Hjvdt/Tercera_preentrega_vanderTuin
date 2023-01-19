@@ -1,16 +1,16 @@
 {% extends "estudiantes/base.html" %}
 
-{% block subtitulo %}Crear curso{% endblock subtitulo %}
+{% block subtitulo %}Crear medico{% endblock subtitulo %}
 
 {% block contenido %}
 {% if es_update %}
-  <form action="{% url 'editar_curso' curso.id %}" method="post">
+  <form action="{% url 'editar_medico' medico.id %}" method="post">
 {% else %}
-  <form action="{% url 'crear_curso' %}" method="post">
+  <form action="{% url 'crear_medico' %}" method="post">
 {% endif %}
-  
-  <h1>Añadir Curso</h1>
-  <p></p>
+
+<h2>Añadir medico</h2>
+<p></p>
 
   {% csrf_token %}
   {{ formulario.as_p }}

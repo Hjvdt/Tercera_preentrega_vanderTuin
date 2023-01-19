@@ -1,0 +1,22 @@
+{% extends "estudiantes/base.html" %}
+
+{% block subtitulo %}Info del Paciente{% endblock subtitulo %}
+
+{% block contenido %}
+<h4>{{paciente.nombre}}</h4>
+<p></p>
+<h4>{{paciente.apellido}}</h4>
+<span>
+  <b>Comision:</b> {{paciente.comision}}
+</span>
+<br>
+{% if paciente.curso %}
+<span>
+  <b>Curso:</b> {{paciente.curso}}
+</span>
+{% endif %}
+<br><br>
+
+<a href="{% url 'listar_paciente' %}">Volver a la lista</a>
+
+{% endblock contenido %}

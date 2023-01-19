@@ -1,18 +1,18 @@
 from django.apps import AppConfig
 
 
-class EstudiantesConfig(AppConfig):
+class PacienteConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'estudiantes'
+    name = 'pacientes'
 
-class ProfesorConfig(AppConfig):
+class MedicoConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'profesor'
+    name = 'medico'
 
 class ComisionConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'comision'
 
-class CursoConfig(AppConfig):
+class EspecialidadConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'curso'
+    name = 'especialidad'
